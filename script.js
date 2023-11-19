@@ -127,6 +127,7 @@ function setTimer() {
       document.querySelector("#timervalue").innerHTML = timer;
     } else {
       clearInterval();
+      gameoverSound.play();
       gameOver();
     }
   }, 1000);
