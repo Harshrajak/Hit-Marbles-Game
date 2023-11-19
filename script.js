@@ -1,3 +1,18 @@
+const bgmButton = document.querySelector("#bgmbtn");
+const musicIcon = document.querySelector("#musicicon");
+const bgm = document.querySelector("#bgm");
+bgm.volume = 0.4;
+
+const soundButton = document.querySelector("#soundbtn");
+const rightSound = document.querySelector("#rightsound");
+const wrongSound = document.querySelector("#wrongsound");
+const startSound = document.querySelector("#startsound");
+const gameoverSound = document.querySelector("#gameoversound");
+rightSound.volume = 0;
+wrongSound.volume = 0;
+startSound.volume = 0;
+gameoverSound.volume = 0;
+
 var timer = 60;
 var score = 0;
 var hitrandom = 0;
@@ -7,18 +22,21 @@ function startGame() {
   var startButton = document.querySelector(".startbtn");
 
   startButton.addEventListener("click", function () {
+    startSound.play();
     var overlay = document.querySelector(".start-overlay");
     overlay.classList.add("hide");
     setTimer();
     makeBubble();
     getNewHit();
   });
-} startGame();
+}
+startGame();
 
 function restartGame() {
   var restartButton = document.querySelector(".endbtn");
 
   restartButton.addEventListener("click", function () {
+    startSound.play();
     var overlay = document.querySelector(".end-overlay");
     overlay.classList.remove("expose");
     resetCross();
@@ -28,7 +46,8 @@ function restartGame() {
     makeBubble();
     getNewHit();
   });
-} restartGame();
+}
+restartGame();
 
 function gameOver() {
   var endOverlay = document.querySelector(".end-overlay");
@@ -40,17 +59,20 @@ function gameOver() {
 function getNewHit() {
   hitrandom = Math.floor(Math.random() * 10);
   document.querySelector("#pressvalue").textContent = hitrandom;
-} getNewHit();
+}
+getNewHit();
 
 function utilityFunction() {
   var panelbottom = document.querySelector(".panelbottom");
   panelbottom.addEventListener("click", function (details) {
     var clickedNumber = Number(details.target.textContent);
     if (clickedNumber === hitrandom) {
+      rightSound.play();
       updateScore();
       getNewHit();
       makeBubble();
     } else {
+      wrongSound.play();
       getNewHit();
       makeBubble();
 
@@ -67,6 +89,7 @@ function utilityFunction() {
       } else if (wrongClickCount === 3) {
         cross3.classList.add("active");
         setTimeout(() => {
+          gameoverSound.play();
           timer = 0;
           gameOver();
           return;
@@ -74,7 +97,8 @@ function utilityFunction() {
       }
     }
   });
-} utilityFunction();
+}
+utilityFunction();
 
 function makeBubble() {
   var clutter = "";
@@ -83,7 +107,8 @@ function makeBubble() {
     clutter += `<div class="bubble">${randomValue}</div>`;
   }
   document.querySelector(".panelbottom").innerHTML = clutter;
-} makeBubble();
+}
+makeBubble();
 
 function updateScore() {
   score += 10;
@@ -120,4 +145,30 @@ function resetCross() {
   cross1.classList.remove("active");
   cross2.classList.remove("active");
   cross3.classList.remove("active");
+}
+
+function toggleBGM() {
+  if (bgm.paused) {
+    bgm.play();
+    musicIcon.src = "music_on.png";
+  } else {
+    bgm.pause();
+    musicIcon.src = "music_off.png";
+  }
+}
+
+function toggleSound() {
+  if (rightSound.volume === 0) {
+    rightSound.volume = 1;
+    wrongSound.volume = 1;
+    startSound.volume = 1;
+    gameoverSound.volume = 1;
+    soundButton.innerHTML = `<i class="fa-solid fa-volume-high"></i>`;
+  } else {
+    rightSound.volume = 0;
+    wrongSound.volume = 0;
+    startSound.volume = 0;
+    gameoverSound.volume = 0;
+    soundButton.innerHTML = `<i class="fa-solid fa-volume-xmark"></i>`;
+  }
 }
