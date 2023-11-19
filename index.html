@@ -9,6 +9,15 @@
     <title>Hit~Marbles</title>
 </head>
 <body>
+    <div class="music-container">
+      <a href="#" id="bgmbtn" onclick="toggleBGM()"><img id="musicicon" src="music_off.png" alt="music_off"></a>
+      <a href="#" id="soundbtn" onclick="toggleSound()"><i class="fa-solid fa-volume-xmark"></i></a>
+      <audio id="bgm" src="BGM2.mp3" loop style="display: none;"></audio>
+      <audio id="rightsound" src="Right-Sound.mp3" style="display: none;"></audio>
+      <audio id="wrongsound" src="Wrong-Sound.mp3" style="display: none;"></audio>
+      <audio id="startsound" src="Start-Sound.mp3" style="display: none;"></audio>
+      <audio id="gameoversound" src="Gameover-Sound.mp3" style="display: none;"></audio>
+    </div>
     <div class="container">
       <div class="start-overlay">
         <div class="sub-container">
