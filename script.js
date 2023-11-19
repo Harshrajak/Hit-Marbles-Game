@@ -13,7 +13,7 @@ wrongSound.volume = 0;
 startSound.volume = 0;
 gameoverSound.volume = 0;
 
-var timer = 60;
+var timer = 5;
 var score = 0;
 var hitrandom = 0;
 var wrongClickCount = 0;
@@ -126,9 +126,10 @@ function setTimer() {
       timer--;
       document.querySelector("#timervalue").innerHTML = timer;
     } else {
-      clearInterval();
       gameoverSound.play();
       gameOver();
+      clearInterval();
+      return;
     }
   }, 1000);
 }
