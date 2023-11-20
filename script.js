@@ -13,6 +13,7 @@ wrongSound.volume = 0;
 startSound.volume = 0;
 gameoverSound.volume = 0;
 
+var timeInterval;
 var timer = 60;
 var score = 0;
 var hitrandom = 0;
@@ -39,9 +40,10 @@ function restartGame() {
     startSound.play();
     var overlay = document.querySelector(".end-overlay");
     overlay.classList.remove("expose");
-    resetCross();
     timer = 60;
+    setTimer();
     resetScore();
+    resetCross();
     wrongClickCount = 0;
     makeBubble();
     getNewHit();
@@ -88,11 +90,10 @@ function utilityFunction() {
         cross2.classList.add("active");
       } else if (wrongClickCount === 3) {
         cross3.classList.add("active");
+        clearInterval(timeInterval);
         setTimeout(() => {
           gameoverSound.play();
-          timer = 0;
           gameOver();
-          return;
         }, 1000);
       }
     }
@@ -116,20 +117,14 @@ function updateScore() {
 }
 
 function setTimer() {
-  setInterval(() => {
-    if (timer === 0) {
-      clearInterval();
-      gameOver();
-    }
-
+  timeInterval = setInterval(() => {
     if (timer > 0) {
       timer--;
       document.querySelector("#timervalue").innerHTML = timer;
     } else {
+      clearInterval(timeInterval);  
       gameoverSound.play();
       gameOver();
-      clearInterval();
-      return;
     }
   }, 1000);
 }
@@ -174,3 +169,16 @@ function toggleSound() {
     soundButton.innerHTML = `<i class="fa-solid fa-volume-xmark"></i>`;
   }
 }
+
+function visibilityCheckForMusic() {
+  if(document.visibilityState) {
+    document.addEventListener("visibilitychange", () => {
+      if(!bgm.paused && document.visibilityState === "hidden") {
+        toggleBGM();
+      }
+      if(rightSound.volume === 1 && document.visibilityState === "hidden") {
+        toggleSound();
+      }
+    });
+  }
+} visibilityCheckForMusic();
