@@ -18,6 +18,7 @@ var timer = 60;
 var score = 0;
 var hitrandom = 0;
 var wrongClickCount = 0;
+var bubbleCount = 119;
 
 function startGame() {
   var startButton = document.querySelector(".startbtn");
@@ -103,7 +104,7 @@ utilityFunction();
 
 function makeBubble() {
   var clutter = "";
-  for (var i = 1; i <= 119; i++) {
+  for (var i = 1; i <= bubbleCount; i++) {
     var randomValue = Math.floor(Math.random() * 10);
     clutter += `<div class="bubble">${randomValue}</div>`;
   }
